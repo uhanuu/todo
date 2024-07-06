@@ -1,10 +1,10 @@
 <template>
     <div>
         <ul>
-            <li class="shadow" v-for="(item, index) in todoItems" :key="index">
-                <i class="checkBtn" @click="toggleComplete">V</i>
-                {{ item }}
-                <span class="removeBtn" @click="removeTodo(item, index)">
+            <li class="shadow" v-for="(todoItem, index) in todoItems" :key="index">
+                <i class="checkBtn" :class="{ checkBtnCompleted: todoItem.completed }" @click="toggleComplete(todoItem)">V</i>
+                <span :class="{ textCompleted: todoItem.completed }">{{ todoItem.item }}</span>
+                <span class="removeBtn" @click="removeTodo(todoItem, index)">
                     <i>삭제</i>
                 </span>
             </li>
@@ -15,15 +15,21 @@
 <script setup>
 const todoItems = [];
 for (var i = 0; i < localStorage.length; i++) {
-    todoItems.push(localStorage.key(i));
+    const todoItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
+    todoItems.push(todoItem);
 }
 
 const removeTodo = (todoItem, index) => {
-    localStorage.removeItem(todoItem);
+    localStorage.removeItem(todoItem.item);
     todoItems.splice(index, 1);
 };
 
-const toggleComplete = () => {};
+const toggleComplete = todoItem => {
+    console.log('toggle');
+    todoItem.completed = !todoItem.completed;
+    console.log(todoItem);
+    localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+};
 </script>
 
 <style scoped>

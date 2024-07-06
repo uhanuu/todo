@@ -1,6 +1,6 @@
 <template>
-    <div class="inputBox shadow">
-        <input type="text" v-model="newTodoItem" @keyup.enter="addTodo" />
+    <div class="inputBox shadow" @click="focusItem">
+        <input class="todo-input" type="text" v-model="newTodoItem" @keyup.enter="addTodo" />
         <span class="addContainer" @click="addTodo">
             <i class="addBtn">추가</i>
         </span>
@@ -9,10 +9,17 @@
 
 <script setup>
 import { ref } from 'vue';
+const focusItem = () => {
+    const input = document.querySelector('.todo-input');
+    input.focus();
+};
 
 const newTodoItem = ref('');
 const addTodo = () => {
-    localStorage.setItem(newTodoItem.value, newTodoItem.value);
+    if (newTodoItem.value !== '') {
+        const todoItem = { completed: false, item: newTodoItem.value };
+        localStorage.setItem(newTodoItem.value, JSON.stringify(todoItem));
+    }
     clearInput();
 };
 const clearInput = () => {
