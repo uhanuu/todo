@@ -9,6 +9,9 @@
 
 <script setup>
 import { ref } from 'vue';
+
+const emit = defineEmits(['add-todo-item']);
+
 const focusItem = () => {
     const input = document.querySelector('.todo-input');
     input.focus();
@@ -17,10 +20,9 @@ const focusItem = () => {
 const newTodoItem = ref('');
 const addTodo = () => {
     if (newTodoItem.value !== '') {
-        const todoItem = { completed: false, item: newTodoItem.value };
-        localStorage.setItem(newTodoItem.value, JSON.stringify(todoItem));
+        emit('add-todo-item', newTodoItem.value);
+        clearInput();
     }
-    clearInput();
 };
 const clearInput = () => {
     newTodoItem.value = '';

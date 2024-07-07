@@ -5,8 +5,9 @@
 </template>
 
 <script setup>
+const emit = defineEmits(['clear-todo']);
 const clearTodo = () => {
-    localStorage.clear();
+    emit('clear-todo');
 };
 </script>
 

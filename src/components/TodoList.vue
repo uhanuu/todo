@@ -2,7 +2,7 @@
     <div>
         <ul>
             <li class="shadow" v-for="(todoItem, index) in todoItems" :key="index">
-                <i class="checkBtn" :class="{ checkBtnCompleted: todoItem.completed }" @click="toggleComplete(todoItem)">V</i>
+                <i class="checkBtn" :class="{ checkBtnCompleted: todoItem.completed }" @click="toggleComplete(todoItem, index)">V</i>
                 <span :class="{ textCompleted: todoItem.completed }">{{ todoItem.item }}</span>
                 <span class="removeBtn" @click="removeTodo(todoItem, index)">
                     <i>삭제</i>
@@ -13,22 +13,20 @@
 </template>
 
 <script setup>
-const todoItems = [];
-for (var i = 0; i < localStorage.length; i++) {
-    const todoItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
-    todoItems.push(todoItem);
-}
+defineProps({
+    todoItems: {
+        type: Object,
+        required: true
+    }
+});
+const emit = defineEmits(['remove-todo-item', 'toggle-complete']);
 
 const removeTodo = (todoItem, index) => {
-    localStorage.removeItem(todoItem.item);
-    todoItems.splice(index, 1);
+    emit('remove-todo-item', todoItem, index);
 };
 
-const toggleComplete = todoItem => {
-    console.log('toggle');
-    todoItem.completed = !todoItem.completed;
-    console.log(todoItem);
-    localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+const toggleComplete = (todoItem, index) => {
+    emit('toggle-complete', todoItem, index);
 };
 </script>
 
