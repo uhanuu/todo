@@ -1,7 +1,7 @@
 <template>
     <div>
         <transition-group name="list" tag="ul">
-            <li class="shadow" v-for="(todoItem, index) in this.$store.state.todoItems" :key="index">
+            <li class="shadow" v-for="(todoItem, index) in store.state.todoItems" :key="index">
                 <i class="checkBtn" :class="{ checkBtnCompleted: todoItem.completed }" @click="toggleComplete(todoItem, index)">V</i>
                 <span :class="{ textCompleted: todoItem.completed }">{{ todoItem.item }}</span>
                 <span class="removeBtn" @click="removeTodo(todoItem, index)">
