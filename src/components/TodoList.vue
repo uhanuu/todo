@@ -1,10 +1,10 @@
 <template>
     <div>
         <transition-group name="list" tag="ul">
-            <li class="shadow" v-for="(todoItem, index) in todoItems" :key="index">
-                <i class="checkBtn" :class="{ checkBtnCompleted: todoItem.completed }" @click="toggleComplete(todoItem, index)">V</i>
+            <li class="shadow" v-for="(todoItem, index) in this.$store.state.todoItems" :key="index">
+                <i class="checkBtn" :class="{ checkBtnCompleted: todoItem.completed }" @click="toggleComplete(index)">V</i>
                 <span :class="{ textCompleted: todoItem.completed }">{{ todoItem.item }}</span>
-                <span class="removeBtn" @click="removeTodo(todoItem, index)">
+                <span class="removeBtn" @click="removeTodo(index)">
                     <i>삭제</i>
                 </span>
             </li>
@@ -13,20 +13,16 @@
 </template>
 
 <script setup>
-defineProps({
-    todoItems: {
-        type: Object,
-        required: true
-    }
-});
-const emit = defineEmits(['remove-todo-item', 'toggle-complete']);
+import { useStore } from 'vuex';
 
-const removeTodo = (todoItem, index) => {
-    emit('remove-todo-item', todoItem, index);
+const store = useStore();
+
+const removeTodo = index => {
+    store.commit('removeTodoItem', index);
 };
 
-const toggleComplete = (todoItem, index) => {
-    emit('toggle-complete', todoItem, index);
+const toggleComplete = index => {
+    store.commit('completeTodoItem', index);
 };
 </script>
 

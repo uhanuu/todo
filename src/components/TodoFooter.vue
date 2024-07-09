@@ -5,9 +5,11 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['clear-todo']);
+import { useStore } from 'vuex';
+
+const store = useStore();
 const clearTodo = () => {
-    emit('clear-todo');
+    store.commit('clearAllItems');
 };
 </script>
 

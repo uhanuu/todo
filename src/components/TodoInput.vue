@@ -21,8 +21,9 @@
 <script setup>
 import { ref } from 'vue';
 import TodoModal from './common/TodoModal.vue';
+import { useStore } from 'vuex';
 
-const emit = defineEmits(['add-todo-item']);
+const store = useStore();
 
 const focusItem = () => {
     const input = document.querySelector('.todo-input');
@@ -32,7 +33,8 @@ const focusItem = () => {
 const newTodoItem = ref('');
 const addTodo = () => {
     if (newTodoItem.value !== '') {
-        emit('add-todo-item', newTodoItem.value);
+        const text = newTodoItem.value.trim();
+        store.commit('addTodoItem', text);
         clearInput();
         return;
     }
