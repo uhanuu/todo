@@ -1,7 +1,7 @@
 <template>
     <div>
         <transition-group name="list" tag="ul">
-            <li class="shadow" v-for="(todoItem, index) in store.state.todoItems" :key="index">
+            <li class="shadow" v-for="(todoItem, index) in getTodoItems" :key="index">
                 <i class="checkBtn" :class="{ checkBtnCompleted: todoItem.completed }" @click="toggleComplete(todoItem, index)">V</i>
                 <span :class="{ textCompleted: todoItem.completed }">{{ todoItem.item }}</span>
                 <span class="removeBtn" @click="removeTodo(todoItem, index)">
@@ -12,10 +12,14 @@
     </div>
 </template>
 
+<!-- template 안에서 표현하는 것들은 자바스크립트 간단한 연산만하고 
+    추가로 전체적인 속성 접근은 줄이자 깔끔하게 표현하기 위한 연산들은 script 안에서 처리하자 -->
 <script setup>
 import { useStore } from 'vuex';
+import { mapGetters } from '@/libs/vuexHelper';
 
 const store = useStore();
+const { getTodoItems } = mapGetters();
 
 const removeTodo = (todoItem, index) => {
     store.commit('removeTodoItem', { todoItem, index });

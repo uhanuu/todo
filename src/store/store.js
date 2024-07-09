@@ -18,7 +18,11 @@ export default createStore({
         todoItems: storage.fetch()
     },
     // 연산된 state 값을 접근하는 속성 (computed)
-    getters: {},
+    getters: {
+        getTodoItems(state) {
+            return state.todoItems;
+        }
+    },
     // state 값을 변경하는 이벤트 로직, 메서드 (methods)
     mutations: {
         addTodoItem(state, newTodoItem) {
