@@ -26,15 +26,15 @@ export default createStore({
             localStorage.setItem(newTodoItem, JSON.stringify(todoItem));
             state.todoItems.push(todoItem);
         },
-        removeTodoItem(state, index) {
-            console.log(state.todoItems[index]);
-            localStorage.removeItem(state.todoItems[index].item);
+        removeTodoItem(state, removeTodoItem) {
+            const { todoItem, index } = removeTodoItem;
+            localStorage.removeItem(todoItem.item);
             state.todoItems.splice(index, 1);
         },
-        completeTodoItem(state, index) {
-            console.log(state.todoItems[index]);
+        completeTodoItem(state, complteTodoItem) {
+            const { todoItem, index } = complteTodoItem;
             state.todoItems[index].completed = !state.todoItems[index].completed;
-            localStorage.setItem(state.todoItems[index].item, JSON.stringify(state.todoItems[index]));
+            localStorage.setItem(todoItem.item, JSON.stringify(state.todoItems[index]));
         },
         clearAllItems(state) {
             state.todoItems.length = 0;

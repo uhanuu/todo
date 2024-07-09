@@ -2,9 +2,9 @@
     <div>
         <transition-group name="list" tag="ul">
             <li class="shadow" v-for="(todoItem, index) in this.$store.state.todoItems" :key="index">
-                <i class="checkBtn" :class="{ checkBtnCompleted: todoItem.completed }" @click="toggleComplete(index)">V</i>
+                <i class="checkBtn" :class="{ checkBtnCompleted: todoItem.completed }" @click="toggleComplete(todoItem, index)">V</i>
                 <span :class="{ textCompleted: todoItem.completed }">{{ todoItem.item }}</span>
-                <span class="removeBtn" @click="removeTodo(index)">
+                <span class="removeBtn" @click="removeTodo(todoItem, index)">
                     <i>삭제</i>
                 </span>
             </li>
@@ -17,12 +17,12 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 
-const removeTodo = index => {
-    store.commit('removeTodoItem', index);
+const removeTodo = (todoItem, index) => {
+    store.commit('removeTodoItem', { todoItem, index });
 };
 
-const toggleComplete = index => {
-    store.commit('completeTodoItem', index);
+const toggleComplete = (todoItem, index) => {
+    store.commit('completeTodoItem', { todoItem, index });
 };
 </script>
 
