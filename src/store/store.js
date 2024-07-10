@@ -1,4 +1,6 @@
 import { createStore } from 'vuex';
+import * as getters from './getters';
+import * as mutations from './mutations';
 
 const storage = {
     fetch() {
@@ -18,33 +20,9 @@ export default createStore({
         todoItems: storage.fetch()
     },
     // 연산된 state 값을 접근하는 속성 (computed)
-    getters: {
-        getTodoItems(state) {
-            return state.todoItems;
-        }
-    },
+    getters,
     // state 값을 변경하는 이벤트 로직, 메서드 (methods)
-    mutations: {
-        addTodoItem(state, newTodoItem) {
-            const todoItem = { completed: false, item: newTodoItem };
-            localStorage.setItem(newTodoItem, JSON.stringify(todoItem));
-            state.todoItems.push(todoItem);
-        },
-        removeTodoItem(state, removeTodoItem) {
-            const { todoItem, index } = removeTodoItem;
-            localStorage.removeItem(todoItem.item);
-            state.todoItems.splice(index, 1);
-        },
-        completeTodoItem(state, complteTodoItem) {
-            const { todoItem, index } = complteTodoItem;
-            state.todoItems[index].completed = !state.todoItems[index].completed;
-            localStorage.setItem(todoItem.item, JSON.stringify(state.todoItems[index]));
-        },
-        clearAllItems(state) {
-            state.todoItems.length = 0;
-            localStorage.clear();
-        }
-    },
+    mutations,
     // 비동기 처리 로직을 선언하는 메서드 (aysnc methods)
     actions: {}
 });
